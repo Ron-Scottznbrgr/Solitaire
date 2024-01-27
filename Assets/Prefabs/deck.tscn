@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ojmn4o3aop5o"]
+
+[ext_resource type="Script" path="res://Scripts/deck.cs" id="1_c0jk7"]
+
+[node name="Deck" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_c0jk7")

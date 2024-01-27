@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2ka6tbv64x0v"]
+
+[ext_resource type="Script" path="res://Scripts/Card.cs" id="1_1itqr"]
+
+[node name="Card" type="Node2D"]
+script = ExtResource("1_1itqr")
+cardValue = 1
+
+[node name="CardImage" type="Sprite2D" parent="."]
+y_sort_enabled = true
+scale = Vector2(0.5, 0.5)
+centered = false
