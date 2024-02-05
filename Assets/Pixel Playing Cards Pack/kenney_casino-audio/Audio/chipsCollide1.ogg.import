@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cqecsn8mwa7nk"
+path="res://.godot/imported/chipsCollide1.ogg-b525e82f4e0dc176e0286a98957a023c.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/chipsCollide1.ogg"
+dest_files=["res://.godot/imported/chipsCollide1.ogg-b525e82f4e0dc176e0286a98957a023c.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

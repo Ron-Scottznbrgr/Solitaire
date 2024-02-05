@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://conxgc35o7cvk"
+path="res://.godot/imported/cardShove3.ogg-dde2be8963a2c1aa786d14f1730705f4.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/cardShove3.ogg"
+dest_files=["res://.godot/imported/cardShove3.ogg-dde2be8963a2c1aa786d14f1730705f4.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -53,9 +53,9 @@ public partial class deck : Node2D
 	{
 		   // Instance the "prefab" card to create a new node
 		   //Assign that node to the myNewCard variable.
-            Node myNewCard = cardPrefab.Instantiate();
+			Node myNewCard = cardPrefab.Instantiate();
 
-            // Add the new node as a child of the current scene or the root node
+			// Add the new node as a child of the current scene or the root node
 			AddChild(myNewCard,true);
 
 			//Call a method from the card class... 

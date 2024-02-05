@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bbssds6snvnnf"
+path="res://.godot/imported/dieGrab1.ogg-b94b7c07d8922f8393ac3267dd71ff80.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/dieGrab1.ogg"
+dest_files=["res://.godot/imported/dieGrab1.ogg-b94b7c07d8922f8393ac3267dd71ff80.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

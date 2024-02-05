@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://byaj1f6yyaf5m"
+path="res://.godot/imported/chipsStack2.ogg-1ea6ad03325a9a618192d7c168c67e1d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/chipsStack2.ogg"
+dest_files=["res://.godot/imported/chipsStack2.ogg-1ea6ad03325a9a618192d7c168c67e1d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

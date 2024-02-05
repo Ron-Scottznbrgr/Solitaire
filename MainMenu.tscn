@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://wd8wma78ab5"]
+
+[ext_resource type="Script" path="res://StartButton.cs" id="1_q0xii"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_q0xii")
+
+[node name="QuitButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="SettingsButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 76.0
+offset_right = 84.0
+offset_bottom = 8.0

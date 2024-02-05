@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://l8v8flwixc7o"
+path="res://.godot/imported/dieShuffle1.ogg-bab4b119de9bedd7e8b207e80439ba0d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/dieShuffle1.ogg"
+dest_files=["res://.godot/imported/dieShuffle1.ogg-bab4b119de9bedd7e8b207e80439ba0d.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

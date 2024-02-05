@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://donqlvlek0anx"
+path="res://.godot/imported/diceThrow1.ogg-401d82d27846aa9de0b8ac5e6fe465db.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/diceThrow1.ogg"
+dest_files=["res://.godot/imported/diceThrow1.ogg-401d82d27846aa9de0b8ac5e6fe465db.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

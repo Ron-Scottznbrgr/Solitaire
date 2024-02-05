@@ -3,94 +3,130 @@ using System;
 
 public partial class Card : Node2D
 {
-	//Export just puts the data in the inspector for the cards... you can set categories. 
-	//The formatting is a bit weird, but it's helpful in the long run
 	[Export]
-    [ExportCategory("Card Data")]
-	private int cardValue;		// Ace = 1
-								// Jack = 11
-								// Queen = 12
-								// King = 13
-	
-	
-	[Export]
-	private int cardSuit;		// 0 = Hearts
-								// 1 = Diamonds
-								// 2 = Clubs
-								// 3 = Spades
-	
-	[Export]
-    [ExportCategory("Card Images")]
-	private Sprite2D cardBackImage; 	// Path to back of card image... Not used yet. 
+	[ExportCategory("Card Data")]
+	//[ExportHint(EnumHint.Category)]
+	public int CardValue; // Ace = 1, Jack = 11, Queen = 12, King = 13
 
 	[Export]
-	public Sprite2D cardFrontImage; 	// Empty by default, assigned an image on card creation.
+		[ExportCategory("Card Data")]
+	//[ExportHint(EnumHint.Category)]
+	public int CardSuit; // 0 = Hearts, 1 = Diamonds, 2 = Clubs, 3 = Spades
 
-	private Boolean isFaceUp;		//Is the card face up.. not used yet.
+	[Export]
+	[ExportCategory("Card Images")]
+	private Texture cardBackTexture; // Path to back of card image
 
+	[Export]
+	[ExportCategory("Card Images")]
+	private Texture cardFrontTexture; // Path to front of card image
 
-	// Called when the node enters the scene tree for the first time.
+	private bool isFaceUp = false; // Tracks the face-up status of the card
+
+	// Path to the sprite node within this Node2D
+	private Sprite2D cardImage;
+
 	public override void _Ready()
 	{
-		//Finding the reference to the Sprite2D image node named "CardImage" under the main card node.
-		cardFrontImage = GetNode<Sprite2D>("CardImage");
+		cardImage = GetNode<Sprite2D>("CardImage");
+		UpdateCardFace(); // make sure to define this method
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	// Method to flip the card
+	public void FlipCard()
 	{
+		isFaceUp = !isFaceUp;
+		UpdateCardFace(); // make sure to define this method
 	}
 
-	//Not implemented this yet.
-	public void GetCardData()
+	// Update the card's visual based on its state
+	private void UpdateCardFace()
 	{
+		//Sprite2D.Texture = isFaceUp ? cardFrontTexture : cardBackTexture;
+		
+		// This method should update the cardImage.Texture based on isFaceUp
+		// and the card textures provided.
 	}
 
-	public void SetCardData(int cardValue, int cardSuit)
+	// Property to determine if the card is face up
+	public bool IsFaceUp
 	{
-		//This suit variable is just to help with linking images to the card
-		//I didn't want to use "Hearts" and stuff in strings to compare,  0 & 1 are red, 2 & 3 are black.
-		//Easy to remember, less typing :P
-		//Open to change if needed.
+		get => isFaceUp;
+		set
+		{
+			isFaceUp = value;
+			UpdateCardFace(); // have to make sure to define this method
+		}
+	}
+
+	public Color CardColor
+	{
+		get => (CardSuit == 0 || CardSuit == 1) ? Colors.Red : Colors.Black;
+	}
+
+	public void SetCardData(int CardValue, int CardSuit, Texture frontTexture = null, Texture backTexture = null)
+	{
 		String suit="";
-					
+		//CardValue = value;
+		//CardSuit = suit;
 
-		//Setting the suit based on... suit...
-								// 0 = Hearts
-								// 1 = Diamonds
-								// 2 = Clubs
-								// 3 = Spades
-
-		if (cardSuit == 0)
+if (CardSuit == 0)
 		{
 			suit = "Hearts";
 		}
-		else if (cardSuit == 1)
+		else if (CardSuit == 1)
 		{
 			suit = "Diamonds";
 		}
-		else if (cardSuit == 2)
+		else if (CardSuit == 2)
 		{
 			suit = "Clubs";
 		}
-		else if (cardSuit ==3)
+		else if (CardSuit ==3)
 		{
 			suit = "Spades";
 		}
 
 		//setting the path to the image...
 		//loading the texture from the path
-		cardFrontImage.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/"+suit+"/"+cardValue+".png");
-		
-		//More debug text
-		//GD.Print(suit);
-		//GD.Print(cardValue);
-	}	
+		cardFrontTexture.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/"+suit+"/"+CardValue+".png");
+		//error:/Users/bluemeaford/Desktop/Solitaire/Scripts/Card.cs(93,20): 'Texture' does not contain a definition for 'Texture' and no accessible extension method 'Texture' accepting a first argument of type 'Texture' could be found (are you missing a using directive or an assembly reference?)
+		if (frontTexture != null)
+		{
+			cardFrontTexture = frontTexture;
+		}
 
-	//Sets the card position
-	public void SetCardPos(Vector2 pos)
-	{
-		this.GlobalPosition = pos;	
+		if (backTexture != null)
+		{
+			cardBackTexture = backTexture;
+		}
+
+		UpdateCardFace(); // need to define this method
 	}
 
+
+	// This method allows setting the position of the card
+	public void SetCardPos(Vector2 pos)
+	{
+		GlobalPosition = pos;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

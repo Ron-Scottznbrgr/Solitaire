@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bmf5rs0vn1k7s"
+path="res://.godot/imported/cardFan2.ogg-4bcbe2628b35db4647bd40820d2cc1bc.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Pixel Playing Cards Pack/kenney_casino-audio/Audio/cardFan2.ogg"
+dest_files=["res://.godot/imported/cardFan2.ogg-4bcbe2628b35db4647bd40820d2cc1bc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
