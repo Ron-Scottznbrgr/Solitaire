@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwfjspnaswwik"]
+
+[ext_resource type="Script" path="res://Scripts/PlayArea.cs" id="1_r7xpm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctbfw"]
+size = Vector2(110.5, 212.5)
+
+[node name="TestPlayArea" type="Node2D"]
+script = ExtResource("1_r7xpm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(55.75, 106.75)
+shape = SubResource("RectangleShape2D_ctbfw")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="StaticBody2D"]
+color = Color(0.168627, 0.631373, 0, 1)

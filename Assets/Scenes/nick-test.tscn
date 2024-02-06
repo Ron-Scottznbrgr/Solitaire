@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqkav6vp1q27e"]
+
+[ext_resource type="PackedScene" uid="uid://b2ka6tbv64x0v" path="res://Assets/Prefabs/card.tscn" id="1_f883u"]
+[ext_resource type="PackedScene" uid="uid://cwfjspnaswwik" path="res://Assets/Scenes/test_play_area.tscn" id="2_o448j"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Card" parent="." instance=ExtResource("1_f883u")]
+
+[node name="TestPlayArea" parent="." instance=ExtResource("2_o448j")]
