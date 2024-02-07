@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public partial class deck : Node2D
 {
@@ -10,12 +11,23 @@ public partial class deck : Node2D
 	//Decided against an array... Using a list of Nodes instead.
 	public List<Node> cardList = new List<Node>(52);
 	
-	public int displayX=0;	//Code to configure simply X/Y for display of cards
-	public int displayY=0;	//Will become obsolete as we find something to do with the cards
+	private int displayX=60;	//Code to configure simply X/Y for display of cards
+	private int displayY=70;	//Will become obsolete as we find something to do with the cards
+	private float inputDelay=0.2f;	//Time before player can press the draw button
+	private float inputTimer=0.0f;	//Timer to indicate when the player can draw
+	private Boolean canInput = true;	//If timer > delay, canInput
+
+	public ColorRect cardCounterRect; 	// Box to put Text on to Display Num of Cards.
+	public Label cardCountLabel;		//Counter for cards in Deck.
+
+	private Vector2 revealPilePosition= new Vector2 (800,170);
+	private int cardCountInt;			//Just holds a int with the card count.
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
+
 		//GD.Print("Hello World");	-> Debug Test. Prints "Hello World" to the console
 		
 		//Creates Cards, and assigns them to the deck
@@ -24,14 +36,63 @@ public partial class deck : Node2D
 		//Suffles the cards.
 		ShuffleCards();
 		
-		//Displays the card in a grid on the screen. 4 rows of 13.
-		DisplayCards();
+		//Create a Deck Pile
+		CreateDeckPile();
+
+		//Reference for the Card Counter ColorRect
+		cardCounterRect = GetNode<ColorRect>("CountRect");
+		cardCounterRect.GlobalPosition = new Vector2(displayX-20,displayY-(cardCounterRect.Size.Y+25));
+
+		//Reference for the Card Counter ColorRect
+		cardCountLabel = GetNode<Label>("CountLabel");
+		cardCountLabel.GlobalPosition = new Vector2(displayX-20,displayY-(cardCounterRect.Size.Y+18));
+		
+
+		//Displays the card in a grid on the screen. 4 rows of 13. //Debug Only
+		//DisplayCards();
+
+		//Reveal Top Card of Deck
+		//RevealTopCard();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		//Updates the label with amount of cards in the deck...
+		//This should probably go somewhere else, but until I find a more reliable location, here it is.
+		//Does it need to update every frame? No. But here we are anyways 	¯\_(ツ)_/¯
+		cardCountInt = cardList.Count; 
+		cardCountLabel.Text = ("   Card Count: "+cardCountInt);
+
+		//If the player presses the "UP" button (arrow keys), draw a card.
+		if (Input.IsActionPressed("ui_up"))
+		{
+			//If they can input, reveal the card, and lock input temporarily.
+			if (canInput)
+			{
+			canInput=false;
+			RevealTopCard();
+			}
+		}
+
 		
+		//If you can't input... Start a timer, and reset input
+		if (!canInput)
+		{
+			if (inputTimer<= inputDelay)
+			{
+				inputTimer+=(float)(1*delta);
+				//GD.Print(inputTimer + "   ////   "+inputDelay);
+			}
+			else
+			{
+				//reset timer to 0 when input is unlocked
+				canInput = true;
+				inputTimer=0.0f;
+			}
+		}
+		
+
 	}
 
 	public void CreateDeck()
@@ -102,6 +163,88 @@ public partial class deck : Node2D
 	}
 
 
+	public void CreateDeckPile()
+	{
+		int cardCounter=0;
+		//int loopCounter=0;	//debug stuff, counts the cards as they print data to console
+
+		//For each Node (card) in the list...
+		foreach(Node cardInList in cardList)
+		{
+			
+			if (cardCounter==4)
+			{		
+			//Var for display positioning.
+			displayX+=2;		//Negative Values put 
+			displayY+=2;		//Negative Values put Deck to Right, Pos = Left
+			cardCounter=0;
+			}
+			cardCounter+=1;
+			//loopCounter+=1;
+		
+			//set x/y to vector, pass to card to set position.
+			Vector2 pos = new Vector2(displayX,displayY);
+
+			//Sets current position in deck AND the reveal pile position for later use.
+			//Sends over displayX and Y to adjust offset of draw pile. Makes it look good. May remove later.
+			cardInList.Call("SetCardPosition", pos, pos+revealPilePosition, displayX,displayY); 
+			//GD.Print("Card Counter: "+loopCounter);
+			//cardInList.Call("DebugPrintCardToConsole");	//calls debug card data
+
+
+		}
+
+		//This is for more of a Godot thing... 
+		//By default it draws the objects in order they appear in the scene tree...
+		//If we want the closer cards to be drawn on top of the cards in back,
+		//we can reverse the list, order them on the tree, then reverse the list back.
+		//
+		//We can do this in other ways, I was just being lazy.
+		
+		
+		cardList.Reverse();
+
+		//for each card...
+		for (int i=0; i<cardList.Count; i++)
+		{
+			MoveChild(cardList[i],0);
+		}
+		
+		//reverse the list back.
+		cardList.Reverse();		
+
+		/*
+		// Top and Bottom of Deck Debug
+		GD.Print("BOTTOM of Deck: ");
+		cardList[0].Call("DebugPrintCardToConsole");
+
+		GD.Print("TOP of Deck: ");
+		cardList[51].Call("DebugPrintCardToConsole");
+		*/
+
+	}
+
+
+	public void RevealTopCard()
+	{
+		int topCard=cardList.Count-1;
+
+		if (topCard>=0)
+		{	
+		//Calls the card in list's method to Reveal it... The reveal method moves it as well, and puts it in the "DrawPile" or whatever it's called.
+		cardList[topCard].Call("RevealCard");
+		//More drawing order shenanigans... Don't know if it's neccesary or not. Seems to work as is. I'll come back later.
+		MoveChild(cardList[topCard],51);
+		//Remove card from the deck list... Need to add it to the DrawPile list later....
+		cardList.RemoveAt(topCard);
+		}
+	}
+
+
+	
+
+
+	//Debug Method for Displaying Cards;
 	public void DisplayCards()
 	{
 		//For each Node (card) in the list...
@@ -119,7 +262,7 @@ public partial class deck : Node2D
 			}
 			
 			//set x/y to vector, pass to card to set position.
-			Vector2 pos = new Vector2(displayX*50,displayY*100);
+			Vector2 pos = new Vector2((displayX-60)*50,(displayY-70)*100);
 			cardInList.Call("SetCardPos", pos); 
 		}
 

@@ -3,5 +3,16 @@
 [ext_resource type="Script" path="res://Scripts/deck.cs" id="1_c0jk7"]
 
 [node name="Deck" type="Node2D"]
-y_sort_enabled = true
+z_as_relative = false
 script = ExtResource("1_c0jk7")
+
+[node name="CountRect" type="ColorRect" parent="."]
+offset_right = 141.0
+offset_bottom = 40.0
+color = Color(0.752941, 0, 0.760784, 1)
+
+[node name="CountLabel" type="Label" parent="."]
+offset_top = 11.0
+offset_right = 138.0
+offset_bottom = 48.0
+text = "  Card Count: "
