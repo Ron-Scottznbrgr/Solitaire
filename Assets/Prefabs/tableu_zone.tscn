@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvb1io3oxh1pj"]
+
+[ext_resource type="Texture2D" uid="uid://cofob6h5ok01m" path="res://Assets/Images/Cards/_Zones/KingHolder.png" id="1_mcto4"]
+
+[node name="Tableu" type="Node2D"]
+
+[node name="ZoneImage" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_mcto4")
+centered = false

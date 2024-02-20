@@ -4,16 +4,14 @@
 
 [node name="Card" type="Node2D"]
 z_as_relative = false
-y_sort_enabled = true
 script = ExtResource("1_1itqr")
 cardValue = 1
 
 [node name="CardImage" type="Sprite2D" parent="."]
 z_as_relative = false
 scale = Vector2(0.3, 0.3)
-centered = false
 
 [node name="BackImage" type="Sprite2D" parent="."]
+z_index = 1000
 z_as_relative = false
 scale = Vector2(0.3, 0.3)
-centered = false

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dlxl50jhu2n8g"]
+
+[node name="World" type="Node2D"]
+
+[node name="Dealer" type="Node2D" parent="."]
+
+[node name="Table" type="Node2D" parent="."]
+
+[node name="TableGFX" type="Sprite2D" parent="Table"]

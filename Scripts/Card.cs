@@ -28,14 +28,20 @@ public partial class Card : Node2D
 	public Sprite2D cardFrontImage; 	// Empty by default, assigned an image on card creation.
 
 	private Boolean isFaceUp;		//Is the card face up..
-	private Boolean isMoving;		//Is the card moving around? Used in revealing card;
+	private Boolean isRevealing;		//Is the card moving around? Used in revealing card;
+	private Boolean isTransferring;		//Is the card moving around between zones
 	private Vector2 revealPilePosition; //The position of the pile of cards the player can see.
 
 	private Vector2 smallestScale;	//Used for Card Flipping
 	private Vector2 defaultScale;	//Base Scale of the Card. Returns to this after Flip.
+
+	private Vector2 targetpos;	//Used for moving to zones
+
+	private int restingZIndex=0;
 	
 	private float flipSpeed;		//Speed in which a card flips over
 	private float moveSpeed;		//Speed in which a card moves from 1 pos to another while revealing;
+	private int zoneSizeOffset = 7;
 	private int offsetX,offsetY;	//Debug Stacking
 
 
@@ -50,11 +56,12 @@ public partial class Card : Node2D
 		//Give the card a back image...
 		cardBackImage.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/back.png");
 		isFaceUp=false;
-		isMoving=false;
+		isRevealing=false;
+		isTransferring=false;
         smallestScale = new Vector2(0.01f,1f);		//scale to make the card look like it's flipping over.
 		defaultScale = this.Scale;					//scale the card started at
 		flipSpeed = 0.05f;							//Speed in which the card flips. I like 0.05f. Subject to change
-		moveSpeed = 15f;							//Speed in which the card moves. I like 15.0f. Subject to Change.
+		moveSpeed = 10f;							//Speed in which the card moves. I like 15.0f. Subject to Change.
 		//FlipCard();
 	}
 
@@ -62,26 +69,57 @@ public partial class Card : Node2D
 	public override void _Process(double delta)
 	{
 		//If the card is set to move...
-		if (isMoving)
+		if (isRevealing)
 		{
 			//If it hasn't reached it's destination or correct size back at the default after a flip...
 			if ((GlobalPosition==revealPilePosition)&&(Scale==defaultScale))
 			{
 				//GD.Print("Arrived at Destination");
-				isMoving=false;
+				isRevealing=false;
 			}
 			else
 			{
 				//GD.Print("Attempting to Move Card");
+				//GD.Print(revealPilePosition);
 				MoveCard(revealPilePosition);
 			}
 			return;
 		}		
+
+
+		if (isTransferring)
+		{
+		if (GlobalPosition!=targetpos)
+		{
+			//Get into Position
+			this.GlobalPosition = this.GlobalPosition.MoveToward(targetpos, moveSpeed);
+			
+
+			//GD.Print("========Moving to target:::   "+GlobalPosition+"  ///  "+targetPos);
+			//GD.Print("Face:  "+isFaceUp+"  //  Scale: "+this.Scale+"     //   Default:   "+ defaultScale+"   //  Small:    "+smallestScale);
+		}
+		else
+		{
+			this.isTransferring = false;
+			SetZIndex(restingZIndex);
+			
+		}
+
+
+
+
+		}
+
 	}
 
 	//Not implemented this yet.
-	public void GetCardData()
+	public int GetCardSuit()
 	{
+		return cardSuit;
+	}
+	public int GetCardValue()
+	{
+		return cardValue;
 	}
 	
 	public void FlipCard()
@@ -100,6 +138,7 @@ public partial class Card : Node2D
 			isFaceUp = true;
 		}
 		cardBackImage.Visible = !isFaceUp;
+		
 	}
 	
 	public void SetCardData(int cardValue, int cardSuit)
@@ -150,7 +189,7 @@ public partial class Card : Node2D
 	public void SetCardPosition(Vector2 pos, Vector2 revealPos)
 	{
 		this.GlobalPosition = pos;	
-		this.revealPilePosition = revealPos;
+		revealPilePosition = revealPos;
 	}
 
 	
@@ -159,7 +198,12 @@ public partial class Card : Node2D
 	public void SetCardPosition(Vector2 pos, Vector2 revealPos, int offsetX, int offsetY)
 	{
 		this.GlobalPosition = pos;	
-		this.revealPilePosition = (revealPos+ new Vector2((-offsetX*2),(-offsetY*2)));
+		this.revealPilePosition = revealPos;
+		
+		//this.revealPilePosition = new Vector2 (((revealPos.X)+-offsetX*2), (revealPos.Y)+-offsetY*2);
+		
+
+		//revealPilePosition = (revealPos);//+ new Vector2((-offsetX*2),(-offsetY*2)));
 		//GD.Print(revealPos + "   //////   "+revealPilePosition+"          positions");
 	}
 
@@ -172,10 +216,10 @@ public partial class Card : Node2D
 	//The call that activates the reveal card.
 	public void RevealCard()
 	{		
-		if (this.isMoving==false)
+		if (this.isRevealing==false)
 		{
 		//GD.Print("Setting card to Move = True....");
-		this.isMoving=true;
+		this.isRevealing=true;
 		}
 	}
 
@@ -187,6 +231,7 @@ public partial class Card : Node2D
 		{
 			//Get into Position
 			this.GlobalPosition = this.GlobalPosition.MoveToward(targetPos, moveSpeed);
+			
 
 			//GD.Print("========Moving to target:::   "+GlobalPosition+"  ///  "+targetPos);
 			//GD.Print("Face:  "+isFaceUp+"  //  Scale: "+this.Scale+"     //   Default:   "+ defaultScale+"   //  Small:    "+smallestScale);
@@ -223,11 +268,44 @@ public partial class Card : Node2D
 		if (GlobalPosition==targetPos && Scale == defaultScale && isFaceUp)
 		{
 			//If it's finished moving, and changing size AND it's face up, then we are done moving to the draw pile.
-			this.isMoving=false;
+			this.isRevealing=false;
 			//GD.Print("Finished Moving");
+			GD.Print("the card is at "+this.GlobalPosition);
 		}
 	}
 
+
+	public void ZoneTransfer(Node2D zone)
+	{
+		this.isTransferring = true;
+		Vector2 zonePos = zone.GlobalPosition;
+		targetpos = new Vector2(zone.GlobalPosition.X,zone.GlobalPosition.Y);
+	}
+
+	public void ZoneTransfer(Node2D zone, int yOffset)//for King Zones, stacks the cards.
+	{
+		this.isTransferring = true;
+		GD.Print ("ZINDEX IS =  "+yOffset);
+		targetpos = new Vector2(zone.GlobalPosition.X,(zone.GlobalPosition.Y+(50*yOffset)));
+		cardFrontImage.ZIndex=1001;
+	}
+
+	public void SetZIndex(int newZIndex)
+	{
+		GD.Print ("Setting Z index to "+newZIndex+"   from "+cardFrontImage.ZIndex);
+		cardFrontImage.ZIndex=newZIndex;
+		restingZIndex = newZIndex;
+	}
+
+	public int GetZIndex()
+	{
+		return this.cardFrontImage.ZIndex;
+	}
+
+	public void SetFanPosition (int yOffset)
+	{
+		this.GlobalPosition = new Vector2(this.GlobalPosition.X, this.GlobalPosition.Y+(10*yOffset));
+	}
 
 	public void DebugPrintCardToConsole()
 	{
@@ -253,6 +331,8 @@ public partial class Card : Node2D
 		GD.Print(suit);
 		GD.Print(cardValue);
 	}
+
+
 
 
 }

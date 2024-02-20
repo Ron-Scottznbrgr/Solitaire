@@ -3,31 +3,32 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-public partial class deck : Node2D
+public partial class deck : cardZone
 {
 	PackedScene cardPrefab = (PackedScene)ResourceLoader.Load("res://Assets/Prefabs/card.tscn");
+
+	PackedScene drawZonePrefab = (PackedScene)ResourceLoader.Load("res://Assets/Prefabs/drawZone.tscn");
 	
 	//public int[,] cards = new int [52,2];
 	//Decided against an array... Using a list of Nodes instead.
-	public List<Node> cardList = new List<Node>(52);
+	//public List<Node> cardList = new List<Node>(52);
+	private Node drawZone;
 	
-	private int displayX=60;	//Code to configure simply X/Y for display of cards
-	private int displayY=70;	//Will become obsolete as we find something to do with the cards
-	private float inputDelay=0.2f;	//Time before player can press the draw button
-	private float inputTimer=0.0f;	//Timer to indicate when the player can draw
-	private Boolean canInput = true;	//If timer > delay, canInput
+	private int displayX=100;	//Code to configure simply X/Y for display of cards
+	private int displayY=150;	
+
 
 	public ColorRect cardCounterRect; 	// Box to put Text on to Display Num of Cards.
 	public Label cardCountLabel;		//Counter for cards in Deck.
 
-	private Vector2 revealPilePosition= new Vector2 (800,170);
+	private Vector2 revealPilePosition;
 	private int cardCountInt;			//Just holds a int with the card count.
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
-
+		SetPositions();
+		
 		//GD.Print("Hello World");	-> Debug Test. Prints "Hello World" to the console
 		
 		//Creates Cards, and assigns them to the deck
@@ -37,16 +38,10 @@ public partial class deck : Node2D
 		ShuffleCards();
 		
 		//Create a Deck Pile
-		CreateDeckPile();
+		CreateDeckPile();		
 
-		//Reference for the Card Counter ColorRect
-		cardCounterRect = GetNode<ColorRect>("CountRect");
-		cardCounterRect.GlobalPosition = new Vector2(displayX-20,displayY-(cardCounterRect.Size.Y+25));
-
-		//Reference for the Card Counter ColorRect
-		cardCountLabel = GetNode<Label>("CountLabel");
-		cardCountLabel.GlobalPosition = new Vector2(displayX-20,displayY-(cardCounterRect.Size.Y+18));
-		
+		CreateDrawZone();
+		drawZone = GetNode<Node>("drawZone");
 
 		//Displays the card in a grid on the screen. 4 rows of 13. //Debug Only
 		//DisplayCards();
@@ -55,8 +50,35 @@ public partial class deck : Node2D
 		//RevealTopCard();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	private void SetPositions()
+	{
+		SetRevealPosition();
+		
+		//Reference for the Card Counter ColorRect
+		cardCounterRect = GetNode<ColorRect>("CountRect");
+		cardCounterRect.GlobalPosition = new Vector2(displayX-70,displayY-84-(cardCounterRect.Size.Y+25));
+
+		//Reference for the Card Counter ColorRect
+		cardCountLabel = GetNode<Label>("CountLabel");
+		cardCountLabel.GlobalPosition = new Vector2(displayX-70,displayY-84-(cardCounterRect.Size.Y+18));
+
+
+	}
+
+	private void Reset()
+	{
+		ShuffleCards();
+		CreateDeckPile();	
+	}
+
+    private void SetRevealPosition()
+    {
+		revealPilePosition.X = this.GlobalPosition.X+385;
+		revealPilePosition.Y = this.GlobalPosition.Y+150;
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
 	{
 		//Updates the label with amount of cards in the deck...
 		//This should probably go somewhere else, but until I find a more reliable location, here it is.
@@ -65,34 +87,7 @@ public partial class deck : Node2D
 		cardCountLabel.Text = ("   Card Count: "+cardCountInt);
 
 		//If the player presses the "UP" button (arrow keys), draw a card.
-		if (Input.IsActionPressed("ui_up"))
-		{
-			//If they can input, reveal the card, and lock input temporarily.
-			if (canInput)
-			{
-			canInput=false;
-			RevealTopCard();
-			}
-		}
-
 		
-		//If you can't input... Start a timer, and reset input
-		if (!canInput)
-		{
-			if (inputTimer<= inputDelay)
-			{
-				inputTimer+=(float)(1*delta);
-				//GD.Print(inputTimer + "   ////   "+inputDelay);
-			}
-			else
-			{
-				//reset timer to 0 when input is unlocked
-				canInput = true;
-				inputTimer=0.0f;
-			}
-		}
-		
-
 	}
 
 	public void CreateDeck()
@@ -166,6 +161,8 @@ public partial class deck : Node2D
 	public void CreateDeckPile()
 	{
 		int cardCounter=0;
+		displayX=100;	//Code to configure simply X/Y for display of cards
+		displayY=150;	
 		//int loopCounter=0;	//debug stuff, counts the cards as they print data to console
 
 		//For each Node (card) in the list...
@@ -187,7 +184,9 @@ public partial class deck : Node2D
 
 			//Sets current position in deck AND the reveal pile position for later use.
 			//Sends over displayX and Y to adjust offset of draw pile. Makes it look good. May remove later.
-			cardInList.Call("SetCardPosition", pos, pos+revealPilePosition, displayX,displayY); 
+			//GD.Print("Card reveal pos   "+revealPilePosition);
+			//GD.Print("Passing to Cards:  "+ pos + "  ///  "+ revealPilePosition+"   ///   ");
+			cardInList.Call("SetCardPosition", pos, revealPilePosition, displayX,displayY); 
 			//GD.Print("Card Counter: "+loopCounter);
 			//cardInList.Call("DebugPrintCardToConsole");	//calls debug card data
 
@@ -227,19 +226,40 @@ public partial class deck : Node2D
 
 	public void RevealTopCard()
 	{
+		Node card;
 		int topCard=cardList.Count-1;
 
 		if (topCard>=0)
 		{	
 		//Calls the card in list's method to Reveal it... The reveal method moves it as well, and puts it in the "DrawPile" or whatever it's called.
 		cardList[topCard].Call("RevealCard");
+		card = cardList[topCard];
 		//More drawing order shenanigans... Don't know if it's neccesary or not. Seems to work as is. I'll come back later.
 		MoveChild(cardList[topCard],51);
 		//Remove card from the deck list... Need to add it to the DrawPile list later....
 		cardList.RemoveAt(topCard);
+		drawZone.Call("CardIntake", card);
+
+		}
+		else
+		{
+			drawZone.Call("ReturnAllCards");
 		}
 	}
 
+
+	public void CreateDrawZone()
+	{
+		    Node myDrawZone = drawZonePrefab.Instantiate();
+
+            // Add the new node as a child of the current scene or the root node
+			AddChild(myDrawZone,true);
+
+			//Call a method from the card class... 
+			//Setting the card's data with value and suit.
+			myDrawZone.Call("SetPos", revealPilePosition);
+			
+	}
 
 	
 
@@ -283,4 +303,20 @@ public partial class deck : Node2D
 		//reverse the list back.
 		cardList.Reverse();		
 	}
+
+	public override void CardIntake(Node card)
+	{
+		cardList.Add(card);
+		ReorderCards();	
+		//card.Call("ZoneTransfer",this);
+	}
+
+
+
+	public Node ReturnCard (Node card)
+	{
+		return card;
+	}
+
+
 }
