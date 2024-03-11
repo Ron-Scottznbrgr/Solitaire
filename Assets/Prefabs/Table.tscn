@@ -15,5 +15,6 @@ script = ExtResource("1_6symp")
 [node name="TableGFX" type="Sprite2D" parent="Table"]
 z_index = -1000
 z_as_relative = false
-position = Vector2(550, 392)
+position = Vector2(754, 522)
+scale = Vector2(1.2125, 1.21667)
 texture = ExtResource("1_2aq5p")
