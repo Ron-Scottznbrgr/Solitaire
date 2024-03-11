@@ -3,9 +3,12 @@ using System;
 
 public partial class kingZone : cardZone
 {
+	private float yOffSet = 0;
+	private float yOffSetAmount = 50;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -16,10 +19,13 @@ public partial class kingZone : cardZone
 
 	public override void CardIntake(Node card)
 	{
+		GD.Print(""+this.Name + ", which has "+cardList.Count+" cards in it, is adding a card...");
+		//this needs to be done for every zone type
+		yOffSet = yOffSetAmount * cardList.Count;
+		cardList.ForEach( c => { c.Call("SetSelectable", false);});
 		cardList.Add(card);
-		ReorderCards();	
-		card.Call("ZoneTransfer",this, (int)card.Call("GetZIndex"));
-
+		ReorderCards();
+		card.Call("ZoneTransfer", this, yOffSet);
 	}
 
 	public bool RuleCheck(int incomingValue)
@@ -51,10 +57,18 @@ public partial class kingZone : cardZone
 		{
 			return false;//error noise
 		}
-	}		
-		/*
+	}	
+
+	public override bool RuleCheck(Card card)
+	{
+		//todo: remove this after full implementation
+		if(cardList.Count == 0){
+			return true;
+		}
 		int suit = (int)card.Call("GetCardSuit");
 		int value = (int)card.Call("GetCardValue");
+		int topSuit = TopCardSuit();
+		int topValue = TopCardValue();
 
 		if (value == topValue-1)
 		{
@@ -70,8 +84,8 @@ public partial class kingZone : cardZone
 		else
 		{
 			return false;//error noise
-		}*/
+		}
+
+	}	
 	
-
-
 }

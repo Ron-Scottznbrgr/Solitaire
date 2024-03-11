@@ -19,8 +19,12 @@ public partial class drawZone : cardZone
 
 	public override void CardIntake(Node card)
 	{
+		cardList.ForEach( c => { c.Call("SetSelectable", false);});
 		cardList.Add(card);
 		card.Call("RevealCard",this.GlobalPosition);
+		card.Call("SetCurrentZone",this);
+		card.Call("SetPreviousPosition",this.GlobalPosition);
+
 		/*
 		GD.Print(""+this.Name + " is accepting a card...");
 		foreach(Node cardInList in cardList)
@@ -31,6 +35,11 @@ public partial class drawZone : cardZone
 		ReorderCards();	
 	}
 
+	public override bool RuleCheck(Card card)
+	{
+		return false;
+
+	}	
 	
 
 /*

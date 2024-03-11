@@ -20,6 +20,7 @@ public partial class Player : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
 	if (canInput)
 	{
 		if (Input.IsActionJustPressed("rs_draw"))
@@ -29,6 +30,13 @@ public partial class Player : Node2D
 			
 			table.Call("DrawCard");
 			}
+		}
+
+		if (Input.IsActionJustPressed("click")){
+			Global.playerHoldingMouse = true;
+		}
+		else if (Input.IsActionJustReleased("click")){
+			Global.playerHoldingMouse = false;
 		}
 
 

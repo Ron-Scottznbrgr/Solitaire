@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://ojmn4o3aop5o"]
+[gd_scene load_steps=3 format=3 uid="uid://ojmn4o3aop5o"]
 
 [ext_resource type="Script" path="res://Scripts/deck.cs" id="1_c0jk7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n6pfp"]
+size = Vector2(200, 300)
 
 [node name="Deck" type="Node2D"]
 z_as_relative = false
@@ -16,3 +19,10 @@ offset_top = 11.0
 offset_right = 138.0
 offset_bottom = 48.0
 text = "  Card Count: "
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(100, 150)
+shape = SubResource("RectangleShape2D_n6pfp")

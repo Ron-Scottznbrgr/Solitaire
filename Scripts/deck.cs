@@ -43,6 +43,10 @@ public partial class deck : cardZone
 		CreateDrawZone();
 		drawZone = GetNode<Node>("drawZone");
 
+		Area2D area = GetNode<Area2D>("Area2D");
+		//Subscribe to events
+		area.InputEvent += DrawInput;
+
 		//Displays the card in a grid on the screen. 4 rows of 13. //Debug Only
 		//DisplayCards();
 
@@ -117,6 +121,7 @@ public partial class deck : cardZone
 			//Call a method from the card class... 
 			//Setting the card's data with value and suit.
 			myNewCard.Call("SetCardData", value, suit);
+			myNewCard.Call("SetCurrentZone", this);
 			
 			//Another example of debug text.
 			//GD.Print(value + " // "+suit);
@@ -311,12 +316,25 @@ public partial class deck : cardZone
 		//card.Call("ZoneTransfer",this);
 	}
 
+	public override bool RuleCheck(Card card)
+	{
+		return false;
 
+	}	
 
 	public Node ReturnCard (Node card)
 	{
 		return card;
 	}
 
+	//Used to handel mouse inputs
+	public void DrawInput(Node viewport, InputEvent @event, long shapeIdx)
+	{
+		if (Input.IsActionJustPressed("click"))
+		{
+			Node table = GetNode("/root/World/Table");
+			table.Call("DrawCard");
+		}
+	}
 
 }

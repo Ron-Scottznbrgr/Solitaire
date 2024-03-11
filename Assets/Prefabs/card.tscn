@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2ka6tbv64x0v"]
+[gd_scene load_steps=3 format=3 uid="uid://b2ka6tbv64x0v"]
 
 [ext_resource type="Script" path="res://Scripts/Card.cs" id="1_1itqr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bawad"]
+size = Vector2(500, 726)
 
 [node name="Card" type="Node2D"]
 z_as_relative = false
@@ -10,6 +13,12 @@ cardValue = 1
 [node name="CardImage" type="Sprite2D" parent="."]
 z_as_relative = false
 scale = Vector2(0.3, 0.3)
+
+[node name="Area2D" type="Area2D" parent="CardImage"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CardImage/Area2D"]
+shape = SubResource("RectangleShape2D_bawad")
 
 [node name="BackImage" type="Sprite2D" parent="."]
 z_index = 1000
