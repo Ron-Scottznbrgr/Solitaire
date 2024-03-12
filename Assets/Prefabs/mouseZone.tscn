@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6g02oe7er6ng"]
+
+[ext_resource type="Script" path="res://Scripts/mouseZone.cs" id="1_tcep7"]
+[ext_resource type="Texture2D" uid="uid://bhhrqbm4qy3px" path="res://Assets/Images/Cards/_Zones/MouseZone.png" id="2_6yqtk"]
+
+[node name="mouseZone" type="Node2D"]
+script = ExtResource("1_tcep7")
+
+[node name="ZoneImage" type="Sprite2D" parent="."]
+visible = false
+z_index = 4096
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_6yqtk")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -80.0
+offset_top = -114.0
+offset_right = 81.0
+offset_bottom = 114.0
+color = Color(1, 0, 0, 0.152941)
+metadata/_edit_lock_ = true
+
+[node name="CountRect" type="ColorRect" parent="."]
+offset_left = 81.0
+offset_top = 66.0
+offset_right = 222.0
+offset_bottom = 106.0
+color = Color(0.752941, 0, 0.760784, 1)
+
+[node name="CountLabel" type="Label" parent="."]
+offset_left = 81.0
+offset_top = 77.0
+offset_right = 219.0
+offset_bottom = 114.0
+text = "  Card Count: "

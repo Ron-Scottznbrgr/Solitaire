@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://j7exbshvon0r"]
+[gd_scene load_steps=4 format=3 uid="uid://j7exbshvon0r"]
 
 [ext_resource type="Script" path="res://Scripts/drawZone.cs" id="1_rut5k"]
 [ext_resource type="Texture2D" uid="uid://bnf2eav5ril0p" path="res://Assets/Images/Cards/_Zones/DrawPile.png" id="1_y3wtp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_krfrd"]
+size = Vector2(154.438, 221.75)
 
 [node name="drawZone" type="Node2D"]
 script = ExtResource("1_rut5k")
@@ -10,3 +13,23 @@ script = ExtResource("1_rut5k")
 z_index = -999
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_y3wtp")
+
+[node name="Body" type="StaticBody2D" parent="."]
+show_behind_parent = true
+z_index = 4096
+z_as_relative = false
+position = Vector2(-155, -223)
+
+[node name="DeckRect" type="ColorRect" parent="Body"]
+visible = false
+offset_right = 153.0
+offset_bottom = 221.0
+color = Color(0, 1, 0, 0.396078)
+
+[node name="BodyCol" type="CollisionShape2D" parent="Body"]
+show_behind_parent = true
+z_index = 4096
+z_as_relative = false
+position = Vector2(76.7813, 111.125)
+shape = SubResource("RectangleShape2D_krfrd")
+debug_color = Color(0, 0.6, 0.701961, 0.380392)

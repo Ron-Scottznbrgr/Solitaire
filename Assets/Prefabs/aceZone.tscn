@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmnkbojbm361l"]
+[gd_scene load_steps=4 format=3 uid="uid://bmnkbojbm361l"]
 
 [ext_resource type="Script" path="res://Scripts/aceZone.cs" id="1_hbvdf"]
 [ext_resource type="Texture2D" uid="uid://1m4225omd4am" path="res://Assets/Images/Cards/_Zones/AceHolder.png" id="2_jnvto"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pmfj7"]
+size = Vector2(154.438, 221.75)
 
 [node name="aceZone" type="Node2D"]
 script = ExtResource("1_hbvdf")
@@ -10,3 +13,23 @@ script = ExtResource("1_hbvdf")
 z_index = -999
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_jnvto")
+
+[node name="Body" type="StaticBody2D" parent="."]
+show_behind_parent = true
+z_index = 4096
+z_as_relative = false
+position = Vector2(-155, -223)
+
+[node name="DeckRect" type="ColorRect" parent="Body"]
+visible = false
+offset_right = 153.0
+offset_bottom = 221.0
+color = Color(0, 1, 0, 0.396078)
+
+[node name="BodyCol" type="CollisionShape2D" parent="Body"]
+show_behind_parent = true
+z_index = 4096
+z_as_relative = false
+position = Vector2(76.7813, 111.125)
+shape = SubResource("RectangleShape2D_pmfj7")
+debug_color = Color(0, 0.6, 0.701961, 0.380392)

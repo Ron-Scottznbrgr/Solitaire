@@ -43,6 +43,9 @@ public partial class deck : cardZone
 		CreateDrawZone();
 		drawZone = GetNode<Node>("drawZone");
 
+		GetColBox();
+
+		
 		//Displays the card in a grid on the screen. 4 rows of 13. //Debug Only
 		//DisplayCards();
 
@@ -67,7 +70,7 @@ public partial class deck : cardZone
 
 	private void Reset()
 	{
-		ShuffleCards();
+		//ShuffleCards();
 		CreateDeckPile();	
 	}
 
@@ -87,7 +90,7 @@ public partial class deck : cardZone
 		cardCountLabel.Text = ("   Card Count: "+cardCountInt);
 
 		//If the player presses the "UP" button (arrow keys), draw a card.
-		
+		IsMouseCol();
 	}
 
 	public void CreateDeck()
@@ -210,7 +213,18 @@ public partial class deck : cardZone
 		}
 		
 		//reverse the list back.
+				
 		cardList.Reverse();		
+
+			//for each card...
+		for (int i=0; i<cardList.Count; i++)
+		{
+			MoveChild(cardList[i],0);
+		}
+		
+		//reverse the list back.
+				
+		cardList.Reverse();	
 
 		/*
 		// Top and Bottom of Deck Debug
@@ -312,6 +326,13 @@ public partial class deck : cardZone
 	}
 
 
+	public override void MoveCardtoZone(Node2D targetZone)
+	{
+		GD.Print("Are we dealing yet?");
+		int topCard=cardList.Count;
+		targetZone.Call("CardIntakeDeal",cardList[topCard-1]);
+		cardList.RemoveAt(topCard-1);		
+	}
 
 	public Node ReturnCard (Node card)
 	{

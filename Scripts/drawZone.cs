@@ -10,12 +10,19 @@ public partial class drawZone : cardZone
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GetColBox();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	
+	public override void GetColBox()
 	{
+		table = GetNode<Node2D>("../../../Table");
+		colBox = GetNode<CollisionShape2D>("Body/BodyCol");
+		GD.Print("My Name is "+this.Name);
+		GD.Print("My body is called"+colBox.Name);
 	}
+
 
 	public override void CardIntake(Node card)
 	{
@@ -29,6 +36,15 @@ public partial class drawZone : cardZone
 		}		*/
 
 		ReorderCards();	
+	}
+
+
+	public void CardIntake(Node card,Boolean returning)
+	{
+		cardList.Add(card);
+		ReorderCards();	
+		card.Call("ZoneTransfer",this);
+
 	}
 
 	

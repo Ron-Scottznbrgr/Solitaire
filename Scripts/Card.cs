@@ -43,7 +43,8 @@ public partial class Card : Node2D
 	private float moveSpeed;		//Speed in which a card moves from 1 pos to another while revealing;
 	private int zoneSizeOffset = 7;
 	private int offsetX,offsetY;	//Debug Stacking
-
+	public Boolean isOnMouse=false;
+	private Node2D mouseZone;
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -52,6 +53,7 @@ public partial class Card : Node2D
 		//Finding the reference to the Sprite2D image node named "CardImage" under the main card node.
 		cardFrontImage = GetNode<Sprite2D>("CardImage");
 		cardBackImage = GetNode<Sprite2D>("BackImage");
+		mouseZone = GetNode<Node2D>("../../mouseZone");
 
 		//Give the card a back image...
 		cardBackImage.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/back.png");
@@ -68,6 +70,9 @@ public partial class Card : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
+		
+
 		//If the card is set to move...
 		if (isRevealing)
 		{
@@ -104,12 +109,22 @@ public partial class Card : Node2D
 			SetZIndex(restingZIndex);
 			
 		}
-
-
-
-
 		}
 
+		if (isOnMouse)
+		{
+			GlobalPosition = mouseZone.GlobalPosition;
+		}
+
+	}
+
+	public void AddToMouse()
+	{
+		isOnMouse=true;
+	}
+	public void RemoveFromMouse()
+	{
+		isOnMouse=false;
 	}
 
 	//Not implemented this yet.
@@ -280,22 +295,41 @@ public partial class Card : Node2D
 		this.isTransferring = true;
 		Vector2 zonePos = zone.GlobalPosition;
 		targetpos = new Vector2(zone.GlobalPosition.X,zone.GlobalPosition.Y);
+		cardFrontImage.ZIndex=1001;
 	}
+public void ZoneTransfer(Node2D zone, int yOffset, Boolean Dealing)
+{
+		this.isTransferring = true;
+		Vector2 zonePos = zone.GlobalPosition;
+		targetpos = new Vector2(zone.GlobalPosition.X,(zone.GlobalPosition.Y+(50*yOffset)));
+		SetZIndexFrontAndBack(50*yOffset);
+}
+
 
 	public void ZoneTransfer(Node2D zone, int yOffset)//for King Zones, stacks the cards.
 	{
 		this.isTransferring = true;
-		GD.Print ("ZINDEX IS =  "+yOffset);
+		//GD.Print ("ZINDEX IS =  "+yOffset);
 		targetpos = new Vector2(zone.GlobalPosition.X,(zone.GlobalPosition.Y+(50*yOffset)));
 		cardFrontImage.ZIndex=1001;
 	}
 
 	public void SetZIndex(int newZIndex)
 	{
-		GD.Print ("Setting Z index to "+newZIndex+"   from "+cardFrontImage.ZIndex);
+		//GD.Print ("Setting Z index to "+newZIndex+"   from "+cardFrontImage.ZIndex);
+		cardBackImage.ZIndex=newZIndex;
 		cardFrontImage.ZIndex=newZIndex;
 		restingZIndex = newZIndex;
 	}
+public void SetZIndexFrontAndBack(int newZIndex)
+	{
+		//GD.Print ("Setting Z index to "+newZIndex+"   from "+cardFrontImage.ZIndex);
+		cardFrontImage.ZIndex=newZIndex;
+		cardBackImage.ZIndex=newZIndex;
+		restingZIndex = newZIndex;
+	}
+
+
 
 	public int GetZIndex()
 	{
@@ -305,6 +339,11 @@ public partial class Card : Node2D
 	public void SetFanPosition (int yOffset)
 	{
 		this.GlobalPosition = new Vector2(this.GlobalPosition.X, this.GlobalPosition.Y+(10*yOffset));
+	}
+
+	public Boolean AmIRevealed()
+	{
+		return isFaceUp;
 	}
 
 	public void DebugPrintCardToConsole()

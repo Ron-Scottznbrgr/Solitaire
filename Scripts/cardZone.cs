@@ -6,16 +6,24 @@ using System.Net.Security;
 public partial class cardZone : Node2D
 {
 
+	Vector2 mousePosition;
+
 	public List<Node> cardList = new List<Node>(52);
+	public CollisionShape2D colBox;
+	public Node2D table;
+	Boolean isMouseInside=false;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GetColBox();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{
+	{	 
+		IsMouseCol();
+		ReorderCards();
 	}
 
 
@@ -25,6 +33,55 @@ public partial class cardZone : Node2D
 		
 		//GD.Print(newPos + "   //////   drawpile          positions");		
 	}
+
+	public virtual void GetColBox()
+	{
+		table = GetNode<Node2D>("../../Table");
+		colBox = GetNode<CollisionShape2D>("Body/BodyCol");
+		GD.Print("My Name is "+this.Name);
+		GD.Print("My body is called"+colBox.Name);
+	}
+
+	public void IsMouseCol()
+	{
+		// Check if the CollisionShape2D is available
+        if (colBox != null)
+        {
+            // Get the rectangle in local coordinates
+            Rect2 localRect = colBox.Shape.GetRect();
+
+            // Get the global position of the CollisionShape2D
+            Vector2 globalPosition = colBox.GlobalPosition;
+
+            // Adjust the rectangle to global coordinates
+            Rect2 globalRect = new Rect2(globalPosition, localRect.Size);			
+			
+			// Get the mouse position in global coordinates
+            mousePosition = GetGlobalMousePosition();
+
+            // Check if the mouse position is within the rectangle
+            if (globalRect.HasPoint(mousePosition))
+            {
+				if (isMouseInside==false)
+				{
+				isMouseInside=true;
+				//	GD.Print(globalRect.Position," ",globalRect.End);
+                GD.Print("Mouse is inside "+this.Name);
+				table.Call("GetMouseCol",this.Name);
+				//GD.Print(mousePosition);
+				}			
+            }
+            else
+            {
+				isMouseInside=false;
+				table.Call("GetMouseCol","Not"+this.Name);
+				//GD.Print(globalRect.Position," ",globalRect.End);
+                //GD.Print("Mouse is outside the rectangle.");
+				//GD.Print(mousePosition);
+            }
+        }
+	}
+
 
 
 	public virtual void CardIntake(Node card)
@@ -50,8 +107,6 @@ public partial class cardZone : Node2D
 		
 		//cardList[topCard-1].Call("SetZIndex",10);
 		cardList.RemoveAt(topCard-1);
-
-
 	}
 
 
@@ -158,5 +213,11 @@ public partial class cardZone : Node2D
 	{
 	cardList.Clear();
 	}
+
+	public void MouseCollide()
+	{
+
+	}
+
 
 }

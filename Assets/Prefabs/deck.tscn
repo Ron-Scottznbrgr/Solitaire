@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://ojmn4o3aop5o"]
+[gd_scene load_steps=3 format=3 uid="uid://ojmn4o3aop5o"]
 
 [ext_resource type="Script" path="res://Scripts/deck.cs" id="1_c0jk7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3grrr"]
+size = Vector2(178.875, 241.5)
 
 [node name="Deck" type="Node2D"]
 z_as_relative = false
@@ -16,3 +19,23 @@ offset_top = 11.0
 offset_right = 138.0
 offset_bottom = 48.0
 text = "  Card Count: "
+
+[node name="Body" type="StaticBody2D" parent="."]
+show_behind_parent = true
+z_index = 4096
+z_as_relative = false
+position = Vector2(-72, -76)
+
+[node name="DeckRect" type="ColorRect" parent="Body"]
+visible = false
+offset_right = 179.0
+offset_bottom = 242.0
+color = Color(0, 1, 0, 0.396078)
+
+[node name="BodyCol" type="CollisionShape2D" parent="Body"]
+show_behind_parent = true
+z_index = 4096
+z_as_relative = false
+position = Vector2(89, 121)
+shape = SubResource("RectangleShape2D_3grrr")
+debug_color = Color(0, 0.6, 0.701961, 0.380392)
