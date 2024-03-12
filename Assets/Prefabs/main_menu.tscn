@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=3 uid="uid://vkb6qt3dgt8y"]
+
+[ext_resource type="Texture2D" uid="uid://ed2ptto8a8xv" path="res://Assets/Images/Cards/back_alt.png" id="1_adbaq"]
+[ext_resource type="Texture2D" uid="uid://dixqjhatvnmjg" path="res://Assets/Images/Cards/Menu/Play.png" id="1_ntyhd"]
+[ext_resource type="Texture2D" uid="uid://bkfai80oj6pe8" path="res://Assets/Images/Cards/Menu/main.png" id="1_vufcd"]
+[ext_resource type="Texture2D" uid="uid://n3tna5muvskq" path="res://Assets/Images/Cards/Menu/Title.png" id="2_ghu0w"]
+[ext_resource type="Script" path="res://Scripts/menu/PlayButton.cs" id="2_klp07"]
+[ext_resource type="Texture2D" uid="uid://xom3vcdtna0s" path="res://Assets/Images/Cards/Menu/Quit.png" id="4_fb8b7"]
+[ext_resource type="Script" path="res://Scripts/menu/QuitButton.cs" id="7_kro2e"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 179.0
+offset_top = 149.0
+offset_right = 179.0
+offset_bottom = 149.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(784, 393)
+texture = ExtResource("1_vufcd")
+metadata/_edit_lock_ = true
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(735, 25.4375)
+scale = Vector2(2.31061, 1.87286)
+texture = ExtResource("2_ghu0w")
+
+[node name="BackCards" type="Sprite2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="card3" type="Sprite2D" parent="BackCards"]
+position = Vector2(504, 386)
+scale = Vector2(0.3585, 0.361)
+texture = ExtResource("1_adbaq")
+metadata/_edit_lock_ = true
+
+[node name="card2" type="Sprite2D" parent="BackCards"]
+position = Vector2(504, 431)
+scale = Vector2(0.3585, 0.361)
+texture = ExtResource("1_adbaq")
+metadata/_edit_lock_ = true
+
+[node name="card1" type="Sprite2D" parent="BackCards"]
+position = Vector2(503.625, 469)
+scale = Vector2(0.3585, 0.361)
+texture = ExtResource("1_adbaq")
+metadata/_edit_lock_ = true
+
+[node name="BackCards2" type="Sprite2D" parent="."]
+
+[node name="card3" type="Sprite2D" parent="BackCards2"]
+position = Vector2(1016, 370)
+rotation = 0.610865
+scale = Vector2(0.3585, 0.361)
+texture = ExtResource("1_adbaq")
+
+[node name="card2" type="Sprite2D" parent="BackCards2"]
+position = Vector2(972, 404)
+rotation = 0.401426
+scale = Vector2(0.3585, 0.361)
+texture = ExtResource("1_adbaq")
+
+[node name="card1" type="Sprite2D" parent="BackCards2"]
+position = Vector2(883, 462)
+rotation = 0.120428
+scale = Vector2(0.3585, 0.361)
+texture = ExtResource("1_adbaq")
+
+[node name="PlayButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 414.0
+offset_top = 375.0
+offset_right = 593.0
+offset_bottom = 635.0
+texture_normal = ExtResource("1_ntyhd")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_klp07")
+metadata/_edit_lock_ = true
+
+[node name="QuitButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 756.0
+offset_top = 379.0
+offset_right = 935.0
+offset_bottom = 639.0
+texture_normal = ExtResource("4_fb8b7")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("7_kro2e")
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]
+[connection signal="pressed" from="QuitButton" to="QuitButton" method="_on_pressed"]

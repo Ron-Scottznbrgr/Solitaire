@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cofob6h5ok01m" path="res://Assets/Images/Cards/_Zones/KingHolder.png" id="2_hhm8k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg4fb"]
-size = Vector2(154.438, 221.75)
+size = Vector2(154.438, 1010)
 
 [node name="kingZone" type="Node2D"]
 script = ExtResource("1_jv2ns")
@@ -32,7 +32,6 @@ color = Color(0, 1, 0, 0.396078)
 show_behind_parent = true
 z_index = 4096
 z_as_relative = false
-position = Vector2(76.7813, 111.125)
+position = Vector2(75, -7)
 shape = SubResource("RectangleShape2D_wg4fb")
 debug_color = Color(0, 0.6, 0.701961, 0.380392)
-metadata/_edit_lock_ = true

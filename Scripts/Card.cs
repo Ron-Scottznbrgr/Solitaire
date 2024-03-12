@@ -56,7 +56,7 @@ public partial class Card : Node2D
 		mouseZone = GetNode<Node2D>("../../mouseZone");
 
 		//Give the card a back image...
-		cardBackImage.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/back.png");
+		cardBackImage.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/back_alt.png");
 		isFaceUp=false;
 		isRevealing=false;
 		isTransferring=false;

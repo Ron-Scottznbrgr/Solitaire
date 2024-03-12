@@ -186,6 +186,16 @@ public partial class Table : Node2D
 		deck.Call("MoveCardtoZone",kingZones[6]);
 
 		deck.Call("MoveCardtoZone",kingZones[6]);
+
+
+		kingZones[0].Call("RevealTopCard");
+		kingZones[1].Call("RevealTopCard");
+		kingZones[2].Call("RevealTopCard");
+		kingZones[3].Call("RevealTopCard");
+		kingZones[4].Call("RevealTopCard");
+		kingZones[5].Call("RevealTopCard");
+		kingZones[6].Call("RevealTopCard");
+
 	}
 
 	public void DrawCard()
