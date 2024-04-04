@@ -173,6 +173,14 @@ public partial class Player : Node2D
 			table.Call("MoveCardtoZone",99,10);
 		}
 
+		if (Input.IsActionJustPressed("add_score"))
+		{
+			Node scoreLabel = GetNode<Node>("../UI/ScoreLabel");
+			scoreLabel.Call("OnCardMoveToAceZone");	
+		}
+		
+
+
 if (Input.IsActionJustReleased("rs_click") && canInput==false)
 {
 	canInput=true;
