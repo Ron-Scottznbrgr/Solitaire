@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class kingZone : cardZone
 {
@@ -12,10 +13,18 @@ public partial class kingZone : cardZone
 	
 	public override void CardIntake(Node card)
 	{
+		GD.Print("MOVE CARD AAA");
 		cardList.Add(card);
 		ReorderCards();	
 		card.Call("ZoneTransfer",this, (int)card.Call("GetZIndex"));
-
+		//Add to score
+		scoreLabel.OnCardMoveToKingZone();
+		//todo: differentiate from sources to apply different score
+		// if(Source == kingZone){
+		// 	scoreLabel.OnCardMoveBetweenKingZones();
+		// }else{
+		// 	scoreLabel.OnCardMoveToKingZone();
+		// }
 	}
 
 	public void CardIntakeDeal(Node card)
@@ -74,6 +83,9 @@ public partial class kingZone : cardZone
 		//cardList.RemoveAt(topCard);
 		//drawZone.Call("CardIntake", card);
 		}
+
+		//Add to score
+		scoreLabel.OnCardTurnedFaceUp();
 	}
 
 	public Boolean IsTopCardRevealed()

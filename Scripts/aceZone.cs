@@ -9,8 +9,20 @@ public partial class aceZone : cardZone
 		GetColBox();
 	}
 
-	
+	public override void CardIntake(Node card)
+	{
+		GD.Print("MOVE CARD AAA");
 
+		base.CardIntake(card);
+		//Add to score
+		scoreLabel.OnCardMoveToAceZone();
+	}
+	public override void CardOuttake()
+	{
+		base.CardOuttake();
+		//Remove from score
+		scoreLabel.OnCardMoveFromAceZoneToKingZone();
+	}
 	public bool RuleCheck(int incomingValue)
 	{
 		if (incomingValue==1)

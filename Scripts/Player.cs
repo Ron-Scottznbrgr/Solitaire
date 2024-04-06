@@ -175,7 +175,7 @@ public partial class Player : Node2D
 
 		if (Input.IsActionJustPressed("add_score"))
 		{
-			Node scoreLabel = GetNode<Node>("../UI/ScoreLabel");
+			Node scoreLabel = GetNode<Node>("/root/World/UI/ScoreLabel");
 			scoreLabel.Call("OnCardMoveToAceZone");	
 		}
 		

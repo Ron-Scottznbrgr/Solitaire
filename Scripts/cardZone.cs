@@ -12,6 +12,7 @@ public partial class cardZone : Node2D
 	public CollisionShape2D colBox;
 	public Node2D table;
 	Boolean isMouseInside=false;
+	public ScoreLabel scoreLabel;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -38,6 +39,7 @@ public partial class cardZone : Node2D
 	{
 		table = GetNode<Node2D>("../../Table");
 		colBox = GetNode<CollisionShape2D>("Body/BodyCol");
+		scoreLabel = GetNode<ScoreLabel>("/root/World/UI/ScoreLabel");
 		GD.Print("My Name is "+this.Name);
 		GD.Print("My body is called"+colBox.Name);
 	}

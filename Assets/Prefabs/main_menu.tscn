@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://vkb6qt3dgt8y"]
+[gd_scene load_steps=9 format=3 uid="uid://vkb6qt3dgt8y"]
 
 [ext_resource type="Texture2D" uid="uid://ed2ptto8a8xv" path="res://Assets/Images/Cards/back_alt.png" id="1_adbaq"]
 [ext_resource type="Texture2D" uid="uid://dixqjhatvnmjg" path="res://Assets/Images/Cards/Menu/Play.png" id="1_ntyhd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/menu/PlayButton.cs" id="2_klp07"]
 [ext_resource type="Texture2D" uid="uid://xom3vcdtna0s" path="res://Assets/Images/Cards/Menu/Quit.png" id="4_fb8b7"]
 [ext_resource type="Script" path="res://Scripts/menu/QuitButton.cs" id="7_kro2e"]
+[ext_resource type="Script" path="res://Scripts/menu/VegasCheckBox.cs" id="8_nf24o"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -96,5 +97,15 @@ stretch_mode = 0
 script = ExtResource("7_kro2e")
 metadata/_edit_lock_ = true
 
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 0
+offset_left = 632.0
+offset_top = 245.0
+offset_right = 656.0
+offset_bottom = 269.0
+text = "Vegas Rules"
+script = ExtResource("8_nf24o")
+
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]
 [connection signal="pressed" from="QuitButton" to="QuitButton" method="_on_pressed"]
+[connection signal="toggled" from="CheckBox" to="CheckBox" method="_on_toggled"]
