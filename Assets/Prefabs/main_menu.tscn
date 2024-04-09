@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://vkb6qt3dgt8y"]
+[gd_scene load_steps=11 format=3 uid="uid://vkb6qt3dgt8y"]
 
 [ext_resource type="Texture2D" uid="uid://ed2ptto8a8xv" path="res://Assets/Images/Cards/back_alt.png" id="1_adbaq"]
 [ext_resource type="Texture2D" uid="uid://dixqjhatvnmjg" path="res://Assets/Images/Cards/Menu/Play.png" id="1_ntyhd"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://xom3vcdtna0s" path="res://Assets/Images/Cards/Menu/Quit.png" id="4_fb8b7"]
 [ext_resource type="Script" path="res://Scripts/menu/QuitButton.cs" id="7_kro2e"]
 [ext_resource type="Script" path="res://Scripts/menu/VegasCheckBox.cs" id="8_nf24o"]
+[ext_resource type="AudioStream" uid="uid://bqljtevytjhmc" path="res://Assets/Audio/FFT-Data.mp3" id="9_k15im"]
+[ext_resource type="Script" path="res://Scripts/Music_Player.cs" id="10_ylbj7"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -105,6 +107,11 @@ offset_right = 656.0
 offset_bottom = 269.0
 text = "Vegas Rules"
 script = ExtResource("8_nf24o")
+
+[node name="BG_Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_k15im")
+volume_db = -12.0
+script = ExtResource("10_ylbj7")
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]
 [connection signal="pressed" from="QuitButton" to="QuitButton" method="_on_pressed"]

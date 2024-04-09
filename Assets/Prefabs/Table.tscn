@@ -1,9 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://eduogbjqiyg4"]
+[gd_scene load_steps=13 format=3 uid="uid://eduogbjqiyg4"]
 
 [ext_resource type="Texture2D" uid="uid://dfbqlgv6apu81" path="res://Assets/Images/Other/cardTable.png" id="1_2aq5p"]
 [ext_resource type="Script" path="res://Scripts/Table.cs" id="1_6symp"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_hgwh2"]
+[ext_resource type="Script" path="res://Scripts/menu/PlayButton.cs" id="4_g2c3v"]
+[ext_resource type="AudioStream" uid="uid://dl4yfwahjbb1j" path="res://Assets/Audio/Pokemon-Game_Corner.mp3" id="4_g21kb"]
 [ext_resource type="Script" path="res://Scripts/ScoreLabel.cs" id="4_okysr"]
+[ext_resource type="Texture2D" uid="uid://xom3vcdtna0s" path="res://Assets/Images/Cards/Menu/Quit.png" id="4_rc0i1"]
+[ext_resource type="Script" path="res://Scripts/Music_Player.cs" id="4_sacpy"]
+[ext_resource type="Script" path="res://Scripts/SFX_Player.cs" id="5_vhat5"]
+[ext_resource type="Script" path="res://Scripts/menu/QuitButton.cs" id="5_yt5dq"]
+[ext_resource type="Texture2D" uid="uid://dntnyeyk8i82k" path="res://Assets/Images/Cards/Menu/PlayAgain.png" id="6_6r4ff"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2mivs"]
+font_size = 45
 
 [node name="World" type="Node2D"]
 
@@ -20,6 +30,68 @@ position = Vector2(754, 522)
 scale = Vector2(1.2125, 1.21667)
 texture = ExtResource("1_2aq5p")
 
+[node name="BG_Music" type="AudioStreamPlayer" parent="Table"]
+stream = ExtResource("4_g21kb")
+volume_db = -20.0
+script = ExtResource("4_sacpy")
+
+[node name="SFX" type="AudioStreamPlayer" parent="Table"]
+volume_db = 10.0
+script = ExtResource("5_vhat5")
+
+[node name="WinSplash" type="Control" parent="."]
+visible = false
+z_index = 4000
+layout_mode = 3
+anchors_preset = 0
+offset_left = 200.0
+offset_top = 200.0
+offset_right = 893.0
+offset_bottom = 652.0
+
+[node name="TextureRect" type="TextureRect" parent="WinSplash"]
+layout_mode = 0
+offset_right = 904.0
+offset_bottom = 451.0
+texture = ExtResource("1_2aq5p")
+expand_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="WinSplash"]
+layout_mode = 2
+offset_right = 903.0
+offset_bottom = 447.0
+color = Color(0, 0, 0, 0.47451)
+
+[node name="Label" type="Label" parent="WinSplash"]
+layout_mode = 2
+offset_left = -1.0
+offset_top = 6.0
+offset_right = 902.0
+offset_bottom = 72.0
+text = "You Win!"
+label_settings = SubResource("LabelSettings_2mivs")
+horizontal_alignment = 1
+
+[node name="QuitButton" type="TextureButton" parent="WinSplash"]
+offset_left = 599.0
+offset_top = 151.0
+offset_right = 778.0
+offset_bottom = 411.0
+texture_normal = ExtResource("4_rc0i1")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("5_yt5dq")
+
+[node name="PlayButton" type="TextureButton" parent="WinSplash"]
+offset_left = 140.0
+offset_top = 150.0
+offset_right = 319.0
+offset_bottom = 410.0
+texture_normal = ExtResource("6_6r4ff")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_g2c3v")
+
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -35,3 +107,6 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 38
 text = "Score: 0"
 script = ExtResource("4_okysr")
+
+[connection signal="pressed" from="WinSplash/QuitButton" to="WinSplash/QuitButton" method="_on_pressed"]
+[connection signal="pressed" from="WinSplash/PlayButton" to="WinSplash/PlayButton" method="_on_pressed"]

@@ -11,7 +11,7 @@ public partial class aceZone : cardZone
 
 	public override void CardIntake(Node card)
 	{
-		GD.Print("MOVE CARD AAA");
+		//GD.Print("MOVE CARD AAA");
 
 		base.CardIntake(card);
 		//Add to score
@@ -72,6 +72,11 @@ public partial class aceZone : cardZone
 		{
 			return false;//error noise
 		}*/
+	}
+
+	public int CardCount()
+	{
+		return cardList.Count;
 	}
 		
 

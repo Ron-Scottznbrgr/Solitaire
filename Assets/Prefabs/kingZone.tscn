@@ -32,6 +32,6 @@ color = Color(0, 1, 0, 0.396078)
 show_behind_parent = true
 z_index = 4096
 z_as_relative = false
-position = Vector2(75, -7)
+position = Vector2(75, 106)
 shape = SubResource("RectangleShape2D_wg4fb")
 debug_color = Color(0, 0.6, 0.701961, 0.380392)

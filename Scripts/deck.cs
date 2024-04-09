@@ -16,7 +16,8 @@ public partial class deck : cardZone
 	
 	private int displayX=100;	//Code to configure simply X/Y for display of cards
 	private int displayY=150;	
-
+	
+	public AudioStreamPlayer SFX;
 
 	public ColorRect cardCounterRect; 	// Box to put Text on to Display Num of Cards.
 	public Label cardCountLabel;		//Counter for cards in Deck.
@@ -27,6 +28,8 @@ public partial class deck : cardZone
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
+		SFX = GetNode<AudioStreamPlayer>("../SFX");
 		SetPositions();
 		
 		//GD.Print("Hello World");	-> Debug Test. Prints "Hello World" to the console
@@ -72,6 +75,7 @@ public partial class deck : cardZone
 	{
 		//ShuffleCards();
 		CreateDeckPile();	
+		SFX.Call("SFX_Shuffle");
 	}
 
     private void SetRevealPosition()
@@ -157,6 +161,7 @@ public partial class deck : cardZone
 
 		//Adding the card back to the top of the list.
 		cardList.Add(prevCard);
+		SFX.Call("SFX_Shuffle");
 		}
 	}
 
@@ -253,6 +258,7 @@ public partial class deck : cardZone
 		//Remove card from the deck list... Need to add it to the DrawPile list later....
 		cardList.RemoveAt(topCard);
 		drawZone.Call("CardIntake", card);
+		SFX.Call("SFX_CardDraw");	
 
 		}
 		else
@@ -328,10 +334,11 @@ public partial class deck : cardZone
 
 	public override void MoveCardtoZone(Node2D targetZone)
 	{
-		GD.Print("Are we dealing yet?");
+		//GD.Print("Are we dealing yet?");
 		int topCard=cardList.Count;
 		targetZone.Call("CardIntakeDeal",cardList[topCard-1]);
-		cardList.RemoveAt(topCard-1);		
+		cardList.RemoveAt(topCard-1);	
+		SFX.Call("SFX_Shuffle");	
 	}
 
 	public Node ReturnCard (Node card)

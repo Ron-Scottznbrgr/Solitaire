@@ -42,7 +42,7 @@ public partial class mouseZone : cardZone
 	public override void CardOuttake()
 	{
 		int topCard=cardList.Count;
-		GD.Print(""+this.Name + ", which has "+topCard+" cards in it, is removing a card...");
+		//GD.Print(""+this.Name + ", which has "+topCard+" cards in it, is removing a card...");
 		
 		//cardList[topCard-1].Call("SetZIndex",10);
 		
@@ -60,7 +60,7 @@ public partial class mouseZone : cardZone
 
 		if (cardList.Count > 0)
 		{
-			GD.Print("Trying to remove a card from "+this.Name);
+			//GD.Print("Trying to remove a card from "+this.Name);
 			//cardList[topCard-1].Call("DebugPrintCardToConsole");
 			targetZone.Call("HasCards");
 			cardList[topCard-1].Call("RemoveFromMouse");
@@ -68,7 +68,7 @@ public partial class mouseZone : cardZone
 			targetZone.Call("HasCards");
 			CardOuttake();
 			this.Call("HasCards");
-			GD.Print(""+this.Name+" is Moving a card to Zone "+targetZone.Name);
+			//GD.Print(""+this.Name+" is Moving a card to Zone "+targetZone.Name);
 		}
 	}
 
@@ -80,13 +80,13 @@ public partial class mouseZone : cardZone
 
 		if (cardList.Count > 0)
 		{
-			GD.Print("Trying to remove a card from "+this.Name);
+			//GD.Print("Trying to remove a card from "+this.Name);
 			//cardList[topCard-1].Call("DebugPrintCardToConsole");
 			cardList[topCard-1].Call("RemoveFromMouse");
 			targetZone.Call("CardIntake",cardList[topCard-1],true);
 			CardOuttake();
 			this.Call("HasCards");
-			GD.Print(""+this.Name+" is Moving a card to Zone "+targetZone.Name);
+			//GD.Print(""+this.Name+" is Moving a card to Zone "+targetZone.Name);
 		}
 	}
 

@@ -11,8 +11,10 @@ public partial class Table : Node2D
 
 	PackedScene mouseZonePrefab = (PackedScene)ResourceLoader.Load("res://Assets/Prefabs/mouseZone.tscn");
 
-
-
+	private Control winSplashScreen;
+private AudioStreamPlayer BG_Music;
+private AudioStreamPlayer SFX;
+private Node drawPile;
 
 
 	private Node[] aceZones = new Node[4];
@@ -20,13 +22,14 @@ public partial class Table : Node2D
 	private Node mouseZone;
 	private Node player;
 
-	private Node drawPile;
+	
 	private Node deck;
 	private String lastCol="";
 
 	int deckC,drawC=0;
 	int ace1C,ace2C,ace3C,ace4C=0;
 	int king1C,king2C,king3C,king4C,king5C,king6C,king7C=0;
+	int aceZone1Count,aceZone2Count,aceZone3Count,aceZone4Count=0;
 
 
 
@@ -62,6 +65,11 @@ public partial class Table : Node2D
 		deck = GetNode<Node>("Deck");
 		drawPile = GetNode<Node>("Deck/drawZone");
 		player = GetNode<Node>("../Player");
+		winSplashScreen = GetNode<Control>("../WinSplash");
+		BG_Music = GetNode<AudioStreamPlayer>("BG_Music");
+		SFX = GetNode<AudioStreamPlayer>("SFX");
+
+		winSplashScreen.Visible=false;
 		
     }
 
@@ -73,6 +81,7 @@ public partial class Table : Node2D
 
             // Add the new node as a child of the current scene or the root node
 			AddChild(myNewDeck,true);
+			//SFX.Call("SFX_Shuffle");
 			
 	}
 
@@ -121,7 +130,7 @@ public partial class Table : Node2D
 		   kingZones[i]=myNewZone;
 			AddChild(myNewZone,true);
 			XposOffset += XposOffsetIncrease;
-			GD.Print(kingZones[i].Name);
+			//GD.Print(kingZones[i].Name);
 		}
 		
 	}
@@ -144,6 +153,7 @@ public partial class Table : Node2D
 	public void DealFaceDown()
 	{
 		//GD.Print("Attempting to deal face down");
+		
 		deck.Call("MoveCardtoZone",kingZones[0]);
 
 		deck.Call("MoveCardtoZone",kingZones[1]);
@@ -216,8 +226,8 @@ public partial class Table : Node2D
 
 	public void MoveCardtoZone(int zone, int kingCardPile)
 	{
-		GD.Print("----------------------------------------------------------------------------------");
-		GD.Print("Zone = "+zone +"    KKP =" +kingCardPile);
+		//GD.Print("----------------------------------------------------------------------------------");
+		//GD.Print("Zone = "+zone +"    KKP =" +kingCardPile);
 		Node targetZone = null;
 		Node kingPile = null;
 
@@ -341,14 +351,16 @@ public partial class Table : Node2D
 				{
 					if ((bool)kingPile.Call("IsTopCardRevealed"))
 					{
-						GD.Print("The Top card is already revealed");
+						//GD.Print("The Top card is already revealed");
 					kingPile.Call("MoveCardtoZone",mouseZone);	
+					SFX.Call("SFX_CardShove");
 					player.Call("MouseFull",true);
 					}
 					else
 					{
-						GD.Print("The Top card is NOT revealed, but now is.");
+						//GD.Print("The Top card is NOT revealed, but now is.");
 						kingPile.Call("RevealTopCard");
+						SFX.Call("SFX_CardDraw");
 						player.Call("MouseFull",false);
 					}
 				}
@@ -360,6 +372,7 @@ public partial class Table : Node2D
 				//Move card to draw pile..
 				//GD.Print("Going back to draw");
 				mouseZone.Call("MoveCardtoZone",drawPile,true);
+				SFX.Call("SFX_CardShove");
 					player.Call("MouseFull",false);	
 			}
 			else
@@ -367,15 +380,16 @@ public partial class Table : Node2D
 				if ((bool)targetZone.Call("HasCards"))
 				{			
 					//Moving cards to the King's Piles from the mouse
-					//GD.Print("999999999999999999999999999999999999999999999999999999999999999999999999999999");	
-					GD.Print("KINGS CARD PILE = "+kingCardPile);	
+					//GD.Print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");	
+					//GD.Print("KINGS CARD PILE = "+kingCardPile);	
 					topSuit=(int)targetZone.Call("TopCardSuit");
 					topValue=(int)targetZone.Call("TopCardValue");	
-					GD.Print ("Target Zone has cards!  "+topSuit+"//"+topValue);
+					//GD.Print ("Target Zone has cards!  "+topSuit+"//"+topValue);
 					
 					if ((bool)targetZone.Call("RuleCheck",(int)mouseZone.Call("TopCardValue"),(int)mouseZone.Call("TopCardSuit"),topSuit,topValue))
 					{
 					mouseZone.Call("MoveCardtoZone",targetZone);
+					SFX.Call("SFX_CardShove");
 					player.Call("MouseFull",false);	
 					//drawPile.Call("MoveCardtoZone",targetZone);	
 					}			
@@ -383,11 +397,12 @@ public partial class Table : Node2D
 				else
 				{
 					//Moving cards to the Zones if there are no cards in them
-					//GD.Print("8888888888888888888888888888888888888888888888888888888888888888888888888888888");
-					GD.Print (""+targetZone.Name+" has NO cards!");
+					//GD.Print("----------------------------------------------------------------");
+					//GD.Print (""+targetZone.Name+" has NO cards!");
 					if ((bool)targetZone.Call("RuleCheck",(int)mouseZone.Call("TopCardValue")))
 					{
 						mouseZone.Call("MoveCardtoZone",targetZone);
+						SFX.Call("SFX_CardShove");
 						player.Call("MouseFull",false);
 						//drawPile.Call("MoveCardtoZone",targetZone);
 					}				
@@ -677,5 +692,24 @@ public partial class Table : Node2D
 
 	}
 
+	public void CheckAces()
+	{
+		aceZone1Count= (int)aceZones[0].Call("CardCount");
+		aceZone2Count= (int)aceZones[1].Call("CardCount");
+		aceZone3Count= (int)aceZones[2].Call("CardCount");
+		aceZone4Count= (int)aceZones[3].Call("CardCount");
+
+		GD.Print("Aces Count = "+aceZone1Count+" // "+aceZone2Count+" // "+aceZone3Count+" // "+aceZone4Count);
+
+		if (aceZone1Count==13 && aceZone2Count==13 && aceZone3Count==13 && aceZone4Count==13)
+		{
+			player.Call("EnableInput",false);
+			BG_Music.Call("WinMusic");
+			winSplashScreen.Visible=true;
+
+		}
+
+
+	}
 	
 }

@@ -77,23 +77,27 @@ public partial class Player : Node2D
 		{
 			canInput=false;
 			table.Call("MoveCardtoZone",0,0);
+			table.Call("CheckAces");
 			
 		}
 		if (Input.IsActionJustPressed("rs_click") && (colZone == "aceZone2") && isMouseFull)
 		{
 			canInput=false;
 			table.Call("MoveCardtoZone",1,0);
+			table.Call("CheckAces");
 
 		}
 		if (Input.IsActionJustPressed("rs_click") && (colZone == "aceZone3") && isMouseFull)
 		{
 			canInput=false;
 			table.Call("MoveCardtoZone",2,0);
+			table.Call("CheckAces");
 		}
 		if (Input.IsActionJustPressed("rs_click") && (colZone == "aceZone4") && isMouseFull)
 		{
 			canInput=false;
 			table.Call("MoveCardtoZone",3,0);
+			table.Call("CheckAces");
 		}
 		if (Input.IsActionJustPressed("rs_click") && (colZone == "kingZone") && isMouseFull)
 		{
@@ -282,6 +286,10 @@ if (Input.IsActionJustReleased("rs_click") && canInput==false)
 				isMouseFull= mouseFull;
 	}
 
+	public void EnableInput(Boolean input)
+	{
+		canInput = input;
+	}
 
 	
   	private void GetReferences()

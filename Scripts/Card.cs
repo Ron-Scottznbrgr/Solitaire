@@ -27,6 +27,7 @@ public partial class Card : Node2D
 	[Export]
 	public Sprite2D cardFrontImage; 	// Empty by default, assigned an image on card creation.
 
+	public AudioStreamPlayer SFX;
 	private Boolean isFaceUp;		//Is the card face up..
 	private Boolean isRevealing;		//Is the card moving around? Used in revealing card;
 	private Boolean isTransferring;		//Is the card moving around between zones
@@ -54,6 +55,7 @@ public partial class Card : Node2D
 		cardFrontImage = GetNode<Sprite2D>("CardImage");
 		cardBackImage = GetNode<Sprite2D>("BackImage");
 		mouseZone = GetNode<Node2D>("../../mouseZone");
+		SFX = GetNode<AudioStreamPlayer>("../../SFX");
 
 		//Give the card a back image...
 		cardBackImage.Texture = (Texture2D)GD.Load("res://Assets/Images/Cards/back_alt.png");
@@ -106,6 +108,7 @@ public partial class Card : Node2D
 		else
 		{
 			this.isTransferring = false;
+			SFX.Call("SFX_CardPlace");
 			SetZIndex(restingZIndex);
 			
 		}
