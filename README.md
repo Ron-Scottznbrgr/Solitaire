@@ -23,7 +23,7 @@ Solitaire Group Project
  3. Accessing the Game
    - GitHub Repository Access:
      - URL: 
-‘https://github.com/rscott0539/Solitaire’
+‘https://github.com/rscott0539/Solitaire
      - The repository is public, allowing anyone interested in the game to view and download the latest releases directly.
 
  4. Downloading the Game
