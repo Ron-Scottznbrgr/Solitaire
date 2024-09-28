@@ -40,6 +40,15 @@ public partial class Player : Node2D
 			table.Call("DrawCard");
 			}
 		}
+		/*
+		if (Input.IsActionJustPressed("rs_king3"))
+		{
+			//If they can input, reveal the card, and lock input temporarily.
+			canInput=false;
+			GetTree().ChangeSceneToFile("res://Assets/Prefabs/main_menu.tscn");
+			
+		}*/
+
 
 
         if (Input.IsActionJustPressed("rs_click") && (colZone == "deck"))

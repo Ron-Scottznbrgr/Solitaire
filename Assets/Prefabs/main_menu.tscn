@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://ed2ptto8a8xv" path="res://Assets/Images/Cards/back_alt.png" id="1_adbaq"]
 [ext_resource type="Texture2D" uid="uid://dixqjhatvnmjg" path="res://Assets/Images/Cards/Menu/Play.png" id="1_ntyhd"]
 [ext_resource type="Texture2D" uid="uid://bkfai80oj6pe8" path="res://Assets/Images/Cards/Menu/main.png" id="1_vufcd"]
-[ext_resource type="Texture2D" uid="uid://n3tna5muvskq" path="res://Assets/Images/Cards/Menu/Title.png" id="2_ghu0w"]
 [ext_resource type="Script" path="res://Scripts/menu/PlayButton.cs" id="2_klp07"]
+[ext_resource type="Texture2D" uid="uid://bant1oq2kqdr5" path="res://Assets/Images/Cards/Menu/Title_2.png" id="2_mhoag"]
 [ext_resource type="Texture2D" uid="uid://xom3vcdtna0s" path="res://Assets/Images/Cards/Menu/Quit.png" id="4_fb8b7"]
 [ext_resource type="Script" path="res://Scripts/menu/QuitButton.cs" id="7_kro2e"]
 [ext_resource type="Script" path="res://Scripts/menu/VegasCheckBox.cs" id="8_nf24o"]
@@ -30,9 +30,9 @@ texture = ExtResource("1_vufcd")
 metadata/_edit_lock_ = true
 
 [node name="Title" type="Sprite2D" parent="."]
-position = Vector2(735, 25.4375)
-scale = Vector2(2.31061, 1.87286)
-texture = ExtResource("2_ghu0w")
+position = Vector2(735, 93)
+scale = Vector2(2.11288, 1.87286)
+texture = ExtResource("2_mhoag")
 
 [node name="BackCards" type="Sprite2D" parent="."]
 metadata/_edit_lock_ = true
@@ -99,14 +99,69 @@ stretch_mode = 0
 script = ExtResource("7_kro2e")
 metadata/_edit_lock_ = true
 
-[node name="CheckBox" type="CheckBox" parent="."]
+[node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 632.0
-offset_top = 245.0
-offset_right = 656.0
-offset_bottom = 269.0
+offset_left = 410.0
+offset_top = 656.0
+offset_right = 601.0
+offset_bottom = 704.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="ColorRect2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 184.0
+offset_bottom = 45.0
+color = Color(1, 1, 1, 0.929412)
+metadata/_edit_lock_ = true
+
+[node name="CheckBox" type="CheckBox" parent="ColorRect2/ColorRect"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -7.0
+offset_right = 169.0
+offset_bottom = 45.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.0313726, 0.266667, 1, 1)
+theme_override_colors/font_hover_color = Color(0.129412, 0.129412, 0.129412, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.376471, 0, 0.376471, 1)
+theme_override_font_sizes/font_size = 24
 text = "Vegas Rules"
 script = ExtResource("8_nf24o")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -143.0
+offset_top = 567.0
+offset_right = 48.0
+offset_bottom = 704.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="ColorRect3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 184.0
+offset_bottom = 129.0
+color = Color(0, 0.803922, 0, 0.360784)
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorRect3/ColorRect"]
+layout_mode = 0
+offset_right = 172.0
+offset_bottom = 120.0
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "CST8334 - Group 1
+Barbara Pichl
+Ron Scott
+Nicholas Ghezzi
+Linna Wang"
+metadata/_edit_lock_ = true
 
 [node name="BG_Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_k15im")
@@ -115,4 +170,4 @@ script = ExtResource("10_ylbj7")
 
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]
 [connection signal="pressed" from="QuitButton" to="QuitButton" method="_on_pressed"]
-[connection signal="toggled" from="CheckBox" to="CheckBox" method="_on_toggled"]
+[connection signal="toggled" from="ColorRect2/ColorRect/CheckBox" to="ColorRect2/ColorRect/CheckBox" method="_on_toggled"]

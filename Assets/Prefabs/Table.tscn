@@ -73,6 +73,7 @@ label_settings = SubResource("LabelSettings_2mivs")
 horizontal_alignment = 1
 
 [node name="QuitButton" type="TextureButton" parent="WinSplash"]
+layout_mode = 0
 offset_left = 599.0
 offset_top = 151.0
 offset_right = 778.0
@@ -83,6 +84,7 @@ stretch_mode = 0
 script = ExtResource("5_yt5dq")
 
 [node name="PlayButton" type="TextureButton" parent="WinSplash"]
+layout_mode = 0
 offset_left = 140.0
 offset_top = 150.0
 offset_right = 319.0

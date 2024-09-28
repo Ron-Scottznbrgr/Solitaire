@@ -22,6 +22,9 @@ public partial class Card : Node2D
 	[Export]
     [ExportCategory("Card Images")]
 	
+	private String ZoneName=null;
+
+
 	private Sprite2D cardBackImage; 	// Path to back of card image... Not used yet. 
 
 	[Export]
